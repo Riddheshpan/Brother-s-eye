@@ -1,0 +1,21 @@
+/* Custom scrollbar for scroll-container class */
+.scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+  background-color: #27272a; /* matches zinc-800 */
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background-color: #a1a1aa; /* matches zinc-400 */
+  border-radius: 4px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: #d4d4d8; /* lighter zinc tone */
+}
+.scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: #a1a1aa #27272a;
+}
