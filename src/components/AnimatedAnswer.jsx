@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-function CascadingTypewriter({ lines = [], type = 'text' }) {
+function CascadingTypewriter({ lines = [], textColor = 'text-white' }) {
   const [currentLine, setCurrentLine] = useState(0)
   const [typedText, setTypedText] = useState('')
   const [doneLines, setDoneLines] = useState([])
@@ -8,14 +8,14 @@ function CascadingTypewriter({ lines = [], type = 'text' }) {
   useEffect(() => {
     if (!Array.isArray(lines) || currentLine >= lines.length) return
 
-    const line = typeof lines[currentLine] === 'string' ? lines[currentLine].trim() : ''
-
+    const line = lines[currentLine]
+    const content = typeof line.content === 'string' ? line.content.trim() : ''
     let i = 0
     setTypedText('')
 
     const interval = setInterval(() => {
-      if (i < line.length) {
-        setTypedText((prev) => prev + line[i])
+      if (i < content.length) {
+        setTypedText((prev) => prev + content[i])
         i++
       } else {
         clearInterval(interval)
@@ -27,21 +27,31 @@ function CascadingTypewriter({ lines = [], type = 'text' }) {
     return () => clearInterval(interval)
   }, [currentLine, lines])
 
-  const style =
-    type === 'code' ? 'font-mono text-green-300 text-sm whitespace-pre-wrap' :
-    type === 'poetry' ? 'italic text-purple-300 whitespace-pre-line' :
-    'text-zinc-200'
+  const getStyle = (type) => {
+    switch (type) {
+      case 'code': return 'font-mono whitespace-pre-wrap text-sm'
+      case 'poem': return 'italic whitespace-pre-line'
+      case 'recipe': return 'whitespace-pre-line'
+      case 'tutorial': return 'whitespace-pre-line'
+      default: return 'whitespace-pre-line'
+    }
+  }
 
   return (
-    <div className={`${style} font-mono leading-relaxed space-y-2`}>
-      {doneLines.map((text, idx) => (
-        <p key={idx}>{text}</p>
+    <div className='font-mono leading-relaxed space-y-2 text-inherit'>
+      {doneLines.map((line, idx) => (
+        <p key={idx} className={`${getStyle(line.type)} ${textColor}`}>
+          {line.content}
+        </p>
+
       ))}
       {currentLine < lines.length && (
-        <p>
+        <p className={`${getStyle(lines[currentLine].type)} ${textColor}`}>
           {typedText}
           <span className='animate-pulse'>▍</span>
         </p>
+
+
       )}
     </div>
   )

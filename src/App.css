@@ -26,6 +26,41 @@
   border: 1px solid #0ff;
   color: #0ff;
 }
+@keyframes bubble-enter-right {
+  from { transform: translateX(40px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes bubble-enter-left {
+  from { transform: translateX(-40px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes bubble-fade-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.bubble-enter-right { animation: bubble-enter-right 0.4s ease-out; }
+.bubble-enter-left  { animation: bubble-enter-left  0.4s ease-out; }
+.bubble-fade-up     { animation: bubble-fade-up     0.4s ease-out; }
+@keyframes bubble-launch-now {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+    scale: 0.95;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.bubble-launch-now {
+  animation: bubble-launch-now 0.3s ease-out;
+}
+
 
 
 @keyframes slideUpFade {
