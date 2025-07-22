@@ -10,9 +10,7 @@ function App() {
   const [history, setHistory] = useState([])
   const [loading, setLoading] = useState(false)
   const [persona, setPersona] = useState('Oracle')
-  const [authenticated, setAuthenticated] = useState(false)
-  const [passwordInput, setPasswordInput] = useState('')
-  const [launching, setLaunching] = useState(false)
+  const [launching, setLaunching] = useState(true)
   const [RecentHistory, setRecentHistory] = useState([])
   const [showLogs, setShowLogs] = useState(false)
 
@@ -20,6 +18,13 @@ function App() {
   const accentBorder = persona === 'Alfred' ? 'border-yellow-500' : 'border-cyan-500'
   const accentButtonBg = persona === 'Alfred' ? 'bg-yellow-600' : 'bg-cyan-600'
   const accentButtonBorder = persona === 'Alfred' ? 'border-yellow-400' : 'border-cyan-400'
+
+
+useEffect(() => {
+  const timer = setTimeout(() => setLaunching(false), 3000) 
+  return () => clearTimeout(timer)
+}, [])
+
 
   useEffect(() => {
     const root = document.documentElement
@@ -38,16 +43,6 @@ function App() {
       setRecentHistory(JSON.parse(stored))
     }
   }, [])
-
-  const checkPassword = () => {
-    if (passwordInput === 'GothamX2025') {
-      setLaunching(true)
-      setTimeout(() => setAuthenticated(true), 3000)
-    } else {
-      alert('Access Denied: Invalid credentials.')
-      setPasswordInput('')
-    }
-  }
 
   const handleDelete = (id) => {
     const filtered = RecentHistory.filter(entry => entry.id !== id)
@@ -203,40 +198,16 @@ function App() {
     }
   }
 
-  if (!authenticated) {
-    if (launching) {
-      return (
-        <div className='h-screen bg-black flex flex-col items-center justify-center text-cyan-400'>
-          <div className='animate-ping w-24 h-24 rounded-full border-4 border-cyan-500'></div>
-          <h1 className='mt-6 text-lg font-mono tracking-widest animate-pulse'>
-            INITIALIZING BROTHER’S EYE...
-          </h1>
-        </div>
-      )
-    }
-
-    return (
-      <div className='h-screen bg-black flex flex-col justify-center items-center text-cyan-300 font-mono'>
-        <div className='mb-6 text-center'>
-          <div className='w-20 h-20 border-4 border-cyan-500 rounded-full animate-pulse'></div>
-          <h1 className='mt-4 text-2xl tracking-widest'>BROTHER'S EYE ACCESS</h1>
-        </div>
-        <input
-          type='password'
-          className='bg-zinc-900 border border-cyan-400 p-2 w-64 text-center outline-none'
-          placeholder='Enter Secret Code'
-          value={passwordInput}
-          onChange={(e) => setPasswordInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') checkPassword()
-          }}
-        />
-        <button onClick={checkPassword} className='mt-4 px-4 py-2 bg-cyan-600 rounded hover:bg-cyan-700'>
-          Unlock
-        </button>
-      </div>
-    )
-  }
+  if (launching) {
+  return (
+    <div className='h-screen bg-black flex flex-col items-center justify-center text-cyan-400'>
+      <div className='animate-ping w-24 h-24 rounded-full border-4 border-cyan-500'></div>
+      <h1 className='mt-6 text-lg font-mono tracking-widest animate-pulse'>
+        INITIALIZING BROTHER’S EYE...
+      </h1>
+    </div>
+  )
+}
 
   return (
     <div className='main-ui-enter grid grid-cols-5 h-screen text-center'>
@@ -298,8 +269,8 @@ function App() {
                     <ChatBubble
                       key={`ans-${idx}-${i}`}
                       text={line.content}
-                      type={line.type ?? 'text'} 
-                      speaker={line.speaker ?? persona} // fallback to current persona
+                      type={line.type ?? 'text'}
+                      speaker={line.speaker ?? persona}
                     />
 
                   )
