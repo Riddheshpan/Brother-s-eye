@@ -57,7 +57,6 @@ useEffect(() => {
     parsedHistory = [newEntry, ...parsedHistory]
     const lower = question.toLowerCase()
 
-    // 🧩 Dynamic Riddler riddles
     const riddlerRiddles = [
       '🧩 “What has cities, but no houses; forests, but no trees; and rivers, but no water?”',
       '🧩 “The more you take, the more you leave behind. What am I?”',
@@ -66,7 +65,6 @@ useEffect(() => {
       '🧩 “What begins but has no end, and the end reveals what never was?”'
     ]
 
-    // 🎭 Standard Easter egg triggers
     const easterEggs = [
       {
         trigger: 'why so serious',
@@ -76,15 +74,15 @@ useEffect(() => {
       },
       {
         trigger: 'i\'m batman',
-        response: '🦇 Of course you are, Master Wayne. Would you like the Batmobile warmed up?',
+        response: '🦇 Of course you are, Master Wayne. Would you like the BatMobile warmed up?',
         type: 'text',
         speaker: 'Alfred'
       },
       {
-        trigger: 'hello selina',
+        trigger: 'hello Selina',
         response: '😼 “Sneaking in again, are we? Try not to trip over your cape.”',
         type: 'text',
-        speaker: 'Catwoman'
+        speaker: 'CatWoman'
       },
       {
         trigger: 'tea',
@@ -94,7 +92,6 @@ useEffect(() => {
       }
     ]
 
-    // 🧩 Riddler handler (random riddle with speaker & type)
     if (lower.includes('riddle me this')) {
       const riddle = riddlerRiddles[Math.floor(Math.random() * riddlerRiddles.length)]
       setHistory(prev => [...prev, {
@@ -105,7 +102,6 @@ useEffect(() => {
       return
     }
 
-    // 🔍 General easter egg handler
     const egg = easterEggs.find(e => lower.includes(e.trigger))
     if (egg) {
       setHistory(prev => [...prev, {
